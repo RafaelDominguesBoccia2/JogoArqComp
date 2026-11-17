@@ -35,8 +35,8 @@ Trilha sonora e efeitos, gerados na hora pelo próprio navegador, sem arquivos d
 
 ## 🧩 Peças e órgãos
 
-| Peça | Órgão | Por que combina | Pista |
-|------|-------|-----------------|-------|
+| Peça | Órgão | Por que combina |
+|------|-------|-----------------|
 | CPU | 🧠 Cérebro | Comanda e processa tudo | 
 | Registradores | 👀 Olhos | Seguram só o que está sendo usado agora | 
 | Address Bus | ⚡ Nervos | Dizem PARA ONDE a informação vai | 
