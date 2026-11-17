@@ -31,24 +31,24 @@ Um paciente muito estranho chegou ao hospital: o **Bit**. Cada órgão dele func
 
 ## 🔊 Som
 
-Trilha sonora e efeitos em estilo **chiptune**, gerados na hora pelo próprio navegador, sem arquivos de áudio. Use os botões **🎵** (música) e **🔊** (efeitos) do topo para ligar ou desligar; a escolha fica salva.
+Trilha sonora e efeitos, gerados na hora pelo próprio navegador, sem arquivos de áudio. Use os botões **🎵** (música) e **🔊** (efeitos) do topo para ligar ou desligar; a escolha fica salva.
 
 ## 🧩 Peças e órgãos
 
 | Peça | Órgão | Por que combina | Pista |
 |------|-------|-----------------|-------|
-| CPU | 🧠 Cérebro | Comanda e processa tudo | _a definir_ |
-| Registradores | 👀 Olhos | Seguram só o que está sendo usado agora | _a definir_ |
-| Address Bus | ⚡ Nervos | Dizem PARA ONDE a informação vai | _a definir_ |
-| DMA | 🫁 Pulmões | Trocam com o mundo sem o cérebro pensar | _a definir_ |
-| UC | ❤️ Coração | Dá o ritmo (clock) e sincroniza tudo | _a definir_ |
-| Memória de Massa | 🟤 Fígado | Guarda reservas por muito tempo | _a definir_ |
-| RAM | 🍽️ Estômago | Guarda por pouco tempo e esvazia | _a definir_ |
-| Dual Core | 🫘 Rins | Dois iguais trabalhando juntos | _a definir_ |
-| ULA | 💪 Músculo | Faz o trabalho pesado: as contas | _a definir_ |
-| Data Bus | 🩸 Veias | Dados indo e voltando | _a definir_ |
-| Cache | ✋ Mão | Deixa "à mão" o que mais se usa | _a definir_ |
-| ROM | 🦴 Ossos | Estrutura fixa, "de fábrica" | _a definir_ |
+| CPU | 🧠 Cérebro | Comanda e processa tudo | 
+| Registradores | 👀 Olhos | Seguram só o que está sendo usado agora | 
+| Address Bus | ⚡ Nervos | Dizem PARA ONDE a informação vai | 
+| DMA | 🫁 Pulmões | Trocam com o mundo sem o cérebro pensar | 
+| UC | ❤️ Coração | Dá o ritmo (clock) e sincroniza tudo | 
+| Memória de Massa | 🟤 Fígado | Guarda reservas por muito tempo | 
+| RAM | 🍽️ Estômago | Guarda por pouco tempo e esvazia | 
+| Dual Core | 🫘 Rins | Dois iguais trabalhando juntos | 
+| ULA | 💪 Músculo | Faz o trabalho pesado: as contas | 
+| Data Bus | 🩸 Veias | Dados indo e voltando | 
+| Cache | ✋ Mão | Deixa "à mão" o que mais se usa | 
+| ROM | 🦴 Ossos | Estrutura fixa, "de fábrica" | 
 
 ## ⚙️ Minijogos
 
