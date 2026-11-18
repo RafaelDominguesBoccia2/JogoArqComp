@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Jogo de transplantes de hardware: coloque cada peça do computador no órgão certo antes do tempo acabar.">
+  <title>Plantão do Hardware · Arquitetura Computacional</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <!-- Cabeçalho: título, cronômetro e progresso -->
+  <header class="cabecalho">
+    <div class="cabecalho__marca">
+      <span class="cabecalho__cruz" aria-hidden="true">+</span>
+      <div>
+        <h1 class="cabecalho__titulo">Plantão do Hardware</h1>
+        <p class="cabecalho__subtitulo">Centro Cirúrgico de Arquitetura Computacional</p>
+      </div>
+    </div>
+
+    <div class="painel" aria-label="Painel da cirurgia">
+      <div class="painel__item">
+        <span class="painel__rotulo">Transplantes</span>
+        <span class="painel__valor" id="progresso">0 de 0</span>
+      </div>
+      <div class="som" role="group" aria-label="Som">
+        <button type="button" class="botao-som" id="botao-musica" aria-pressed="true" title="Música">🎵<span class="visualmente-oculto">Música</span></button>
+        <button type="button" class="botao-som" id="botao-efeitos" aria-pressed="true" title="Efeitos sonoros">🔊<span class="visualmente-oculto">Efeitos sonoros</span></button>
+      </div>
+      <button type="button" class="botao botao--secundario" id="botao-reiniciar">Reiniciar</button>
+    </div>
+  </header>
+
+  <main class="sala-cirurgica">
+    <!-- Paciente: desenho em SVG + zonas de transplante geradas pelo script -->
+    <section class="mesa" aria-labelledby="titulo-paciente">
+      <h2 class="visualmente-oculto" id="titulo-paciente">Paciente: <span id="nome-paciente">Bit</span></h2>
+
+      <!-- Monitor de sinais vitais: o cronômetro da cirurgia -->
+      <div class="monitor" id="painel-tempo" role="timer" aria-labelledby="monitor-rotulo">
+        <div class="monitor__topo">
+          <span class="monitor__rotulo" id="monitor-rotulo">Tempo de cirurgia</span>
+          <span class="monitor__estado" id="estado-tempo">Estável</span>
+        </div>
+        <div class="monitor__tela">
+          <span class="monitor__tempo" id="tempo">2:00</span>
+          <svg class="monitor__ecg" viewBox="0 0 200 40" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+            <g class="monitor__ecg-linha">
+              <path d="M0 22H60l6 0 6-14 6 26 6-18 6 6h38q8-8 16 0h56M200 22h60l6 0 6-14 6 26 6-18 6 6h38q8-8 16 0h56"
+                    fill="none" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+            </g>
+          </svg>
+        </div>
+        <div class="barra-tempo" aria-hidden="true">
+          <div class="barra-tempo__preenchimento" id="barra-tempo"></div>
+        </div>
+      </div>
+
+      <div class="paciente" id="paciente">
+        <svg class="paciente__desenho" viewBox="0 0 400 640" aria-hidden="true" focusable="false">
+          <g stroke="#2b2d42" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+            <!-- Braços (contorno grosso + preenchimento) -->
+            <path d="M112 240 Q58 272 50 360" fill="none" stroke-width="42"/>
+            <path d="M112 240 Q58 272 50 360" fill="none" stroke="#bde0fe" stroke-width="34"/>
+            <path d="M288 240 Q342 272 350 360" fill="none" stroke-width="42"/>
+            <path d="M288 240 Q342 272 350 360" fill="none" stroke="#bde0fe" stroke-width="34"/>
+            <circle cx="50" cy="374" r="21" fill="#a2d2ff"/>
+            <circle cx="350" cy="374" r="21" fill="#a2d2ff"/>
+
+            <!-- Pernas e pés -->
+            <path d="M165 500 L160 588" fill="none" stroke-width="50"/>
+            <path d="M165 500 L160 588" fill="none" stroke="#bde0fe" stroke-width="42"/>
+            <path d="M235 500 L240 588" fill="none" stroke-width="50"/>
+            <path d="M235 500 L240 588" fill="none" stroke="#bde0fe" stroke-width="42"/>
+            <ellipse cx="150" cy="606" rx="34" ry="17" fill="#a2d2ff"/>
+            <ellipse cx="250" cy="606" rx="34" ry="17" fill="#a2d2ff"/>
+
+            <!-- Tronco com a área de cirurgia tracejada -->
+            <rect x="95" y="195" width="210" height="325" rx="70" fill="#bde0fe"/>
+            <rect x="118" y="214" width="164" height="290" rx="52" fill="#e7f5ff" stroke-dasharray="10 10" stroke-width="3"/>
+
+            <!-- Pescoço -->
+            <rect x="178" y="172" width="44" height="32" rx="8" fill="#a2d2ff"/>
+
+            <!-- Antena -->
+            <line x1="200" y1="30" x2="200" y2="14"/>
+            <circle cx="200" cy="12" r="9" fill="#ffd166"/>
+
+            <!-- Orelhas e cabeça -->
+            <ellipse cx="100" cy="108" rx="16" ry="25" fill="#a2d2ff"/>
+            <ellipse cx="300" cy="108" rx="16" ry="25" fill="#a2d2ff"/>
+            <ellipse cx="200" cy="105" rx="100" ry="77" fill="#bde0fe"/>
+
+            <!-- Rosto -->
+            <circle cx="138" cy="142" r="11" fill="#ffafcc" stroke="none" opacity="0.7"/>
+            <circle cx="262" cy="142" r="11" fill="#ffafcc" stroke="none" opacity="0.7"/>
+            <path d="M180 156 Q200 170 220 156" fill="none"/>
+
+            <!-- Curativo na cabeça -->
+            <g transform="rotate(-25 262 52)">
+              <rect x="238" y="44" width="48" height="16" rx="8" fill="#ffe8cc"/>
+              <rect x="254" y="44" width="16" height="16" fill="#ffd8a8" stroke-width="3"/>
+            </g>
+          </g>
+        </svg>
+
+        <!-- As zonas de transplante são criadas em js/game.js -->
+        <div class="paciente__zonas" id="zonas"></div>
+
+        <!-- Balão de fala usado na reação do paciente -->
+        <p class="paciente__fala" id="fala-paciente" hidden></p>
+
+        <!-- Etiqueta com nome e função do órgão (passar o mouse, focar ou tocar) -->
+        <p class="paciente__etiqueta" id="etiqueta-orgao" role="tooltip" hidden></p>
+      </div>
+    </section>
+
+    <!-- Bandeja de peças: cartas arrastáveis geradas pelo script -->
+    <section class="bandeja" aria-labelledby="titulo-bandeja">
+      <h2 class="bandeja__titulo" id="titulo-bandeja">Bandeja de peças</h2>
+      <p class="bandeja__dica">Arraste cada peça até o órgão que funciona como ela no paciente. Também dá para clicar na peça e depois no órgão.</p>
+
+      <!-- Prontuário: explica a peça escolhida e qual órgão procurar -->
+      <div class="prontuario" id="prontuario" aria-live="polite">
+        <p class="prontuario__etiqueta">📋 Prontuário</p>
+        <div class="prontuario__conteudo" id="prontuario-conteudo"></div>
+      </div>
+      <ul class="bandeja__lista" id="bandeja"></ul>
+    </section>
+  </main>
+
+  <!-- Mensagens para leitores de tela -->
+  <p class="visualmente-oculto" id="anuncio" aria-live="polite"></p>
+
+  <!-- Janela de início / fim de jogo -->
+  <dialog class="modal" id="modal" aria-labelledby="modal-titulo">
+    <div class="modal__ilustracao" id="modal-ilustracao" aria-hidden="true"></div>
+    <h2 class="modal__titulo" id="modal-titulo"></h2>
+    <p class="modal__texto" id="modal-texto"></p>
+    <button type="button" class="botao botao--primario" id="modal-botao"></button>
+  </dialog>
+
+  <!-- Janela dos minijogos (conteúdo controlado por js/minigames/manager.js) -->
+  <dialog class="minijogo" id="minijogo" aria-labelledby="aula-titulo">
+    <svg class="minijogo__engrenagem minijogo__engrenagem--a" viewBox="0 0 100 100" aria-hidden="true" focusable="false">
+      <circle cx="50" cy="50" r="36" fill="none" stroke="#2b2d42" stroke-width="16" stroke-dasharray="11 8"/>
+      <circle cx="50" cy="50" r="30" fill="#ffd166" stroke="#2b2d42" stroke-width="4"/>
+      <circle cx="50" cy="50" r="10" fill="#fff8ec" stroke="#2b2d42" stroke-width="4"/>
+    </svg>
+    <svg class="minijogo__engrenagem minijogo__engrenagem--b" viewBox="0 0 100 100" aria-hidden="true" focusable="false">
+      <circle cx="50" cy="50" r="36" fill="none" stroke="#2b2d42" stroke-width="16" stroke-dasharray="11 8"/>
+      <circle cx="50" cy="50" r="30" fill="#b8f2e6" stroke="#2b2d42" stroke-width="4"/>
+      <circle cx="50" cy="50" r="10" fill="#fff8ec" stroke="#2b2d42" stroke-width="4"/>
+    </svg>
+
+    <section class="minijogo__tela" data-tela="intro">
+      <!-- Explicação da peça que acabou de ser implantada -->
+      <article class="aula">
+        <div class="aula__icone" id="aula-icone"></div>
+        <div class="aula__conteudo">
+          <p class="aula__etiqueta">Peça implantada · <span id="aula-orgao"></span></p>
+          <h2 class="aula__titulo" id="aula-titulo"></h2>
+          <p class="aula__texto" id="aula-explicacao"></p>
+          <p class="aula__analogia" id="aula-analogia"></p>
+        </div>
+      </article>
+
+      <!-- Regras do minijogo sorteado -->
+      <div class="minijogo__regras" id="minijogo-regras">
+        <p class="minijogo__etiqueta">⚙ Minijogo de emergência</p>
+        <h3 class="minijogo__titulo" id="minijogo-titulo"></h3>
+        <figure class="demo">
+          <video class="demo__video" id="minijogo-demo" muted loop playsinline preload="none"
+                 aria-label="Vídeo de demonstração do minijogo"></video>
+          <figcaption class="demo__legenda">▶ Veja como se joga</figcaption>
+        </figure>
+        <p class="minijogo__texto" id="minijogo-instrucoes"></p>
+        <ul class="minijogo__premios">
+          <li class="premio premio--bonus" id="minijogo-bonus"></li>
+          <li class="premio premio--penalidade" id="minijogo-penalidade"></li>
+        </ul>
+        <p class="minijogo__aviso">O tempo da cirurgia fica pausado enquanto esta janela estiver aberta.</p>
+      </div>
+
+      <button type="button" class="botao botao--primario" id="minijogo-comecar">Começar minijogo</button>
+    </section>
+
+    <section class="minijogo__tela" data-tela="jogo" hidden>
+      <canvas class="minijogo__canvas" id="minijogo-canvas" tabindex="-1" aria-label="Área do minijogo"></canvas>
+      <div class="minijogo__controles" id="minijogo-controles"></div>
+    </section>
+
+    <section class="minijogo__tela" data-tela="resultado" hidden>
+      <p class="minijogo__selo" id="minijogo-selo"></p>
+      <h2 class="minijogo__titulo" id="minijogo-resultado-titulo"></h2>
+      <p class="minijogo__texto" id="minijogo-resultado-texto"></p>
+      <button type="button" class="botao botao--primario" id="minijogo-voltar">Voltar à cirurgia</button>
+    </section>
+  </dialog>
+
+  <footer class="rodape">
+    <p>Atividade de Arquitetura Computacional · feito com HTML, CSS e JavaScript puros</p>
+  </footer>
+
+  <script src="js/pieces.js"></script>
+  <script src="js/audio.js"></script>
+  <script src="js/minigames/manager.js"></script>
+  <script src="js/minigames/flappy.js"></script>
+  <script src="js/minigames/maze.js"></script>
+  <script src="js/minigames/ninja.js"></script>
+  <script src="js/minigames/formula.js"></script>
+  <script src="js/minigames/calculadora.js"></script>
+  <script src="js/minigames/relampago.js"></script>
+  <script src="js/minigames/apagao.js"></script>
+  <script src="js/minigames/somenteleitura.js"></script>
+  <script src="js/minigames/folego.js"></script>
+  <script src="js/minigames/maodupla.js"></script>
+  <script src="js/minigames/hitmiss.js"></script>
+  <script src="js/minigames/doisnucleos.js"></script>
+  <script src="js/game.js"></script>
+</body>
+</html>
