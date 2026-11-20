@@ -1,0 +1,1246 @@
+/* =========================================================
+   Plantão do Hardware · estilo "desenho animado"
+   Contornos grossos, sombras chapadas e cores pastel.
+   ========================================================= */
+
+/* ---------- Variáveis ---------- */
+:root {
+  --cor-tinta: #2b2d42;
+  --cor-fundo: #fff8ec;
+  --cor-papel: #ffffff;
+  --cor-menta: #b8f2e6;
+  --cor-azul: #bde0fe;
+  --cor-azul-claro: #e7f5ff;
+  --cor-rosa: #ffc8dd;
+  --cor-amarelo: #ffd166;
+  --cor-verde: #06d6a0;
+  --cor-vermelho: #ef476f;
+
+  --fonte: 'Fredoka', 'Comic Sans MS', 'Trebuchet MS', system-ui, sans-serif;
+
+  --borda: 3px solid var(--cor-tinta);
+  --sombra: 4px 4px 0 var(--cor-tinta);
+  --sombra-forte: 6px 6px 0 var(--cor-tinta);
+  --raio: 18px;
+  --raio-pequeno: 12px;
+
+  --espaco-1: 0.25rem;
+  --espaco-2: 0.5rem;
+  --espaco-3: 1rem;
+  --espaco-4: 1.5rem;
+  --espaco-5: 2rem;
+
+  --transicao: 150ms ease;
+}
+
+/* ---------- Base ---------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  font-family: var(--fonte);
+  color: var(--cor-tinta);
+  background-color: var(--cor-fundo);
+  /* Fundo de azulejo de hospital, em pontinhos */
+  background-image: radial-gradient(var(--cor-menta) 2px, transparent 2px);
+  background-size: 28px 28px;
+}
+
+h1,
+h2,
+p {
+  margin: 0;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+}
+
+.visualmente-oculto {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+:focus-visible {
+  outline: 3px dashed var(--cor-vermelho);
+  outline-offset: 3px;
+}
+
+/* ---------- Botões ---------- */
+.botao {
+  padding: var(--espaco-2) var(--espaco-4);
+  border: var(--borda);
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 1rem;
+  box-shadow: var(--sombra);
+  cursor: pointer;
+  transition: transform var(--transicao), box-shadow var(--transicao);
+}
+
+.botao:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: var(--sombra-forte);
+}
+
+.botao:active {
+  transform: translate(3px, 3px);
+  box-shadow: 1px 1px 0 var(--cor-tinta);
+}
+
+.botao--primario {
+  background: var(--cor-verde);
+  font-size: 1.15rem;
+}
+
+.botao--secundario {
+  background: var(--cor-amarelo);
+}
+
+/* ---------- Cabeçalho ---------- */
+.cabecalho {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--espaco-3);
+  padding: var(--espaco-3) var(--espaco-4);
+  background: var(--cor-papel);
+  border-bottom: var(--borda);
+}
+
+.cabecalho__marca {
+  display: flex;
+  align-items: center;
+  gap: var(--espaco-3);
+}
+
+.cabecalho__cruz {
+  display: grid;
+  place-items: center;
+  width: 3rem;
+  height: 3rem;
+  border: var(--borda);
+  border-radius: var(--raio-pequeno);
+  background: var(--cor-vermelho);
+  color: var(--cor-papel);
+  font-size: 2.2rem;
+  font-weight: 700;
+  line-height: 1;
+  box-shadow: var(--sombra);
+  transform: rotate(-6deg);
+}
+
+.cabecalho__titulo {
+  font-size: clamp(1.4rem, 3vw, 2rem);
+  font-weight: 700;
+  line-height: 1.1;
+}
+
+.cabecalho__subtitulo {
+  font-size: 0.9rem;
+  opacity: 0.75;
+}
+
+/* ---------- Painel (tempo e progresso) ---------- */
+.painel {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--espaco-3);
+}
+
+.painel__item {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 7.5rem;
+  padding: var(--espaco-2) var(--espaco-3);
+  background: var(--cor-azul-claro);
+  border: var(--borda);
+  border-radius: var(--raio-pequeno);
+  box-shadow: var(--sombra);
+}
+
+.painel__rotulo {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  opacity: 0.7;
+}
+
+.painel__valor {
+  font-size: 1.5rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.barra-tempo {
+  height: 8px;
+  margin-top: var(--espaco-1);
+  border: 2px solid var(--cor-tinta);
+  border-radius: 999px;
+  background: var(--cor-papel);
+  overflow: hidden;
+}
+
+.barra-tempo__preenchimento {
+  width: 100%;
+  height: 100%;
+  background: var(--cor-verde);
+  transition: width 300ms linear, background-color var(--transicao);
+}
+
+/* ---------- Botões de som ---------- */
+.som {
+  display: flex;
+  gap: var(--espaco-2);
+}
+
+.botao-som {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 2.8rem;
+  height: 2.8rem;
+  padding: 0;
+  background: var(--cor-menta);
+  border: var(--borda);
+  border-radius: 50%;
+  font-size: 1.25rem;
+  box-shadow: var(--sombra);
+  cursor: pointer;
+  transition: transform var(--transicao), box-shadow var(--transicao), opacity var(--transicao);
+}
+
+.botao-som:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: var(--sombra-forte);
+}
+
+.botao-som:active {
+  transform: translate(3px, 3px);
+  box-shadow: 1px 1px 0 var(--cor-tinta);
+}
+
+/* desligado: fica apagado e riscado */
+.botao-som[aria-pressed='false'] {
+  background: #e0e0e0;
+  opacity: 0.7;
+}
+
+.botao-som[aria-pressed='false']::after {
+  content: '';
+  position: absolute;
+  width: 70%;
+  height: 3px;
+  background: var(--cor-vermelho);
+  border-radius: 2px;
+  transform: rotate(-45deg);
+}
+
+/* ---------- Sala cirúrgica (layout principal) ---------- */
+.sala-cirurgica {
+  flex: 1;
+  display: grid;
+  grid-template-columns: minmax(280px, 440px) minmax(260px, 1fr);
+  gap: var(--espaco-5);
+  width: min(1100px, 100%);
+  margin: 0 auto;
+  padding: var(--espaco-5) var(--espaco-4);
+  align-items: start;
+}
+
+/* ---------- Mesa e paciente ---------- */
+/* Monitor de sinais vitais (cronômetro da cirurgia) */
+.monitor {
+  --cor-sinal: var(--cor-verde);
+  position: sticky;
+  top: var(--espaco-2);
+  z-index: 6;
+  margin-bottom: var(--espaco-3);
+  padding: var(--espaco-2) var(--espaco-3) var(--espaco-3);
+  background: #22314f;
+  color: var(--cor-sinal);
+  border: var(--borda);
+  border-radius: var(--raio);
+  box-shadow: var(--sombra);
+  transition: color var(--transicao);
+}
+
+.monitor--alerta {
+  --cor-sinal: var(--cor-amarelo);
+}
+
+.monitor--urgente {
+  --cor-sinal: #ff5c84;
+  animation: alarme 0.8s ease-in-out infinite;
+}
+
+.monitor--pausado {
+  --cor-sinal: #9aa5b8;
+  animation: none;
+}
+
+.monitor__topo {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.monitor__rotulo {
+  color: rgb(255 255 255 / 0.75);
+}
+
+.monitor__estado {
+  padding: 1px var(--espaco-2);
+  border: 2px solid currentColor;
+  border-radius: 999px;
+}
+
+.monitor__tela {
+  display: flex;
+  align-items: center;
+  gap: var(--espaco-3);
+}
+
+.monitor__tempo {
+  font-size: clamp(2.6rem, 6vw, 3.4rem);
+  font-weight: 700;
+  line-height: 1.1;
+  font-variant-numeric: tabular-nums;
+  text-shadow: 0 0 12px currentColor;
+}
+
+.monitor__ecg {
+  flex: 1;
+  height: 46px;
+  overflow: hidden;
+}
+
+.monitor__ecg-linha {
+  animation: batimento 2s linear infinite;
+}
+
+.monitor--urgente .monitor__ecg-linha {
+  animation-duration: 0.8s;
+}
+
+.monitor--pausado .monitor__ecg-linha {
+  animation-play-state: paused;
+}
+
+.monitor .barra-tempo {
+  height: 10px;
+  margin-top: var(--espaco-1);
+  border-color: rgb(255 255 255 / 0.6);
+  background: rgb(255 255 255 / 0.12);
+}
+
+.monitor .barra-tempo__preenchimento {
+  background: var(--cor-sinal);
+}
+
+.monitor .balao {
+  z-index: 2;
+}
+
+.mesa {
+  padding: var(--espaco-3);
+  background: var(--cor-papel);
+  border: var(--borda);
+  border-radius: var(--raio);
+  box-shadow: var(--sombra-forte);
+}
+
+.paciente {
+  position: relative;
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+  aspect-ratio: 400 / 640;
+}
+
+.paciente__desenho,
+.paciente__zonas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* ---------- Zonas de transplante ---------- */
+.zona {
+  position: absolute;
+  width: 13%;
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 3px dashed var(--cor-tinta);
+  border-radius: 50%;
+  background: rgb(255 255 255 / 0.92);
+  transform: translate(-50%, -50%);
+  cursor: pointer;
+  transition: transform var(--transicao), background-color var(--transicao);
+}
+
+.zona__orgao {
+  display: grid;
+  place-items: center;
+  width: 82%;
+  height: 82%;
+  opacity: 0.4;
+  filter: grayscale(0.4);
+  pointer-events: none;
+}
+
+.zona__orgao .icone {
+  width: 100%;
+  height: 100%;
+}
+
+.paciente--aguardando .zona:not(.zona--preenchida) {
+  animation: chamar 1.2s ease-in-out infinite;
+}
+
+.zona:not(.zona--preenchida):hover,
+.zona--alvo {
+  background: var(--cor-amarelo);
+  transform: translate(-50%, -50%) scale(1.15);
+}
+
+.zona--preenchida {
+  border-style: solid;
+  background: var(--cor-menta);
+  cursor: default;
+  animation: encaixar 400ms ease-out;
+}
+
+.zona--preenchida .icone {
+  width: 88%;
+  height: 88%;
+}
+
+.zona--erro {
+  background: var(--cor-vermelho);
+  animation: tremer 400ms ease-in-out;
+}
+
+/* Balão flutuante de "Boa!" / "-5s" */
+.balao {
+  position: absolute;
+  padding: 2px 10px;
+  border: 2px solid var(--cor-tinta);
+  border-radius: 999px;
+  font-weight: 700;
+  white-space: nowrap;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  animation: subir 900ms ease-out forwards;
+}
+
+.balao--acerto {
+  background: var(--cor-verde);
+}
+
+.balao--erro {
+  background: var(--cor-vermelho);
+  color: var(--cor-papel);
+}
+
+/* ---------- Etiqueta do órgão ---------- */
+.paciente__etiqueta {
+  position: absolute;
+  z-index: 4;
+  width: max-content;
+  max-width: 220px;
+  padding: var(--espaco-2) var(--espaco-3);
+  background: var(--cor-tinta);
+  color: var(--cor-papel);
+  border-radius: var(--raio-pequeno);
+  font-size: 0.85rem;
+  line-height: 1.3;
+  text-align: center;
+  pointer-events: none;
+  transform: translate(-50%, calc(-100% - 34px));
+  box-shadow: 3px 3px 0 rgb(43 45 66 / 0.3);
+}
+
+.paciente__etiqueta strong {
+  display: block;
+  font-size: 1rem;
+  color: var(--cor-amarelo);
+}
+
+.paciente__etiqueta--abaixo {
+  transform: translate(-50%, 34px);
+}
+
+/* ---------- Prontuário ---------- */
+.prontuario {
+  margin-bottom: var(--espaco-3);
+  padding: var(--espaco-2) var(--espaco-3) var(--espaco-3);
+  background: var(--cor-papel);
+  border: var(--borda);
+  border-radius: var(--raio-pequeno);
+  box-shadow: var(--sombra);
+  min-height: 7.5rem;
+  transition: background-color var(--transicao);
+}
+
+.prontuario[data-tipo='erro'] {
+  background: #ffe3ea;
+  animation: tremer-leve 300ms ease-in-out;
+}
+
+.prontuario[data-tipo='acerto'] {
+  background: #d8f8ee;
+}
+
+.prontuario__etiqueta {
+  margin-bottom: var(--espaco-1);
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  opacity: 0.7;
+}
+
+.prontuario__conteudo {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espaco-2);
+  line-height: 1.4;
+}
+
+.prontuario__peca {
+  display: flex;
+  align-items: center;
+  gap: var(--espaco-2);
+}
+
+.prontuario__peca .icone {
+  flex: 0 0 40px;
+  width: 40px;
+  height: 40px;
+}
+
+.prontuario__pista {
+  padding: var(--espaco-1) var(--espaco-2);
+  background: var(--cor-amarelo);
+  border: 2px solid var(--cor-tinta);
+  border-radius: 10px;
+  font-size: 0.92rem;
+}
+
+/* ---------- Bandeja e cartas de órgãos ---------- */
+.bandeja {
+  padding: var(--espaco-4);
+  background: var(--cor-azul-claro);
+  border: var(--borda);
+  border-radius: var(--raio);
+  box-shadow: var(--sombra-forte);
+}
+
+.bandeja__titulo {
+  font-size: 1.3rem;
+}
+
+.bandeja__dica {
+  margin: var(--espaco-1) 0 var(--espaco-3);
+  font-size: 0.95rem;
+  opacity: 0.8;
+}
+
+.bandeja__lista {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+  gap: var(--espaco-3);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.carta {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--espaco-1);
+  width: 100%;
+  padding: var(--espaco-3) var(--espaco-2);
+  background: var(--cor-papel);
+  border: var(--borda);
+  border-radius: var(--raio-pequeno);
+  box-shadow: var(--sombra);
+  cursor: grab;
+  touch-action: none; /* permite arrastar no celular */
+  user-select: none;
+  transition: transform var(--transicao), box-shadow var(--transicao), opacity var(--transicao);
+}
+
+.carta:hover {
+  transform: translate(-2px, -2px) rotate(-2deg);
+  box-shadow: var(--sombra-forte);
+}
+
+.carta .icone {
+  width: 56px;
+  height: 56px;
+}
+
+.carta__nome {
+  font-weight: 600;
+  text-align: center;
+}
+
+.carta--selecionada {
+  background: var(--cor-amarelo);
+  transform: translate(-2px, -2px) rotate(-2deg);
+  box-shadow: var(--sombra-forte);
+}
+
+.carta--arrastando {
+  opacity: 0.35;
+}
+
+.carta--fantasma {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 10;
+  width: 120px;
+  background: var(--cor-amarelo);
+  box-shadow: var(--sombra-forte);
+  pointer-events: none;
+  cursor: grabbing;
+}
+
+/* ---------- Modal ---------- */
+.modal {
+  width: min(440px, calc(100% - 2rem));
+  padding: var(--espaco-5) var(--espaco-4);
+  border: var(--borda);
+  border-radius: var(--raio);
+  background: var(--cor-papel);
+  color: var(--cor-tinta);
+  text-align: center;
+  box-shadow: 8px 8px 0 var(--cor-tinta);
+}
+
+.modal::backdrop {
+  background: rgb(43 45 66 / 0.55);
+}
+
+.modal[open] {
+  animation: aparecer 350ms ease-out;
+}
+
+.modal__ilustracao {
+  display: grid;
+  place-items: center;
+  width: 5rem;
+  height: 5rem;
+  margin: 0 auto var(--espaco-3);
+  border: var(--borda);
+  border-radius: 50%;
+  background: var(--cor-menta);
+  font-size: 2.6rem;
+  box-shadow: var(--sombra);
+}
+
+.modal[data-tipo='derrota'] .modal__ilustracao {
+  background: var(--cor-rosa);
+}
+
+.modal[data-tipo='vitoria'] .modal__ilustracao {
+  background: var(--cor-amarelo);
+}
+
+.modal__titulo {
+  font-size: 1.6rem;
+  margin-bottom: var(--espaco-2);
+}
+
+.modal__texto {
+  margin-bottom: var(--espaco-4);
+  line-height: 1.5;
+}
+
+/* ---------- Reação do paciente ---------- */
+.paciente--reagindo .paciente__desenho {
+  animation: pane 0.18s steps(2) infinite;
+}
+
+.paciente__fala {
+  position: absolute;
+  top: -1%;
+  left: 46%;
+  z-index: 3;
+  width: 54%;
+  padding: var(--espaco-2) var(--espaco-3);
+  background: var(--cor-papel);
+  border: var(--borda);
+  border-radius: var(--raio-pequeno);
+  box-shadow: var(--sombra);
+  font-weight: 600;
+  font-size: 0.95rem;
+  line-height: 1.3;
+  animation: aparecer 300ms ease-out;
+}
+
+/* rabinho do balão apontando para a cabeça */
+.paciente__fala::after {
+  content: '';
+  position: absolute;
+  bottom: -12px;
+  left: 18px;
+  width: 18px;
+  height: 18px;
+  background: var(--cor-papel);
+  border-right: var(--borda);
+  border-bottom: var(--borda);
+  transform: rotate(45deg);
+}
+
+/* ---------- Minijogos ---------- */
+.minijogo {
+  width: min(540px, calc(100% - 1.5rem));
+  max-height: calc(100vh - 1.5rem);
+  padding: var(--espaco-5) var(--espaco-4) var(--espaco-4);
+  overflow: hidden auto;
+  border: var(--borda);
+  border-radius: var(--raio);
+  background: var(--cor-papel);
+  background-image:
+    linear-gradient(rgb(43 45 66 / 0.06) 2px, transparent 2px),
+    linear-gradient(90deg, rgb(43 45 66 / 0.06) 2px, transparent 2px);
+  background-size: 24px 24px;
+  color: var(--cor-tinta);
+  text-align: center;
+  box-shadow: 8px 8px 0 var(--cor-tinta);
+}
+
+.minijogo::backdrop {
+  background: rgb(43 45 66 / 0.6);
+}
+
+.minijogo[open] {
+  animation: aparecer 350ms ease-out;
+}
+
+.minijogo__engrenagem {
+  position: absolute;
+  width: 84px;
+  height: 84px;
+  pointer-events: none;
+  animation: girar 6s linear infinite;
+}
+
+.minijogo__engrenagem--a {
+  top: -30px;
+  left: -30px;
+}
+
+.minijogo__engrenagem--b {
+  top: -14px;
+  left: 44px;
+  width: 52px;
+  height: 52px;
+  animation-direction: reverse;
+  animation-duration: 4s;
+}
+
+.minijogo__tela {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--espaco-3);
+}
+
+.minijogo__tela[hidden] {
+  display: none;
+}
+
+.minijogo__etiqueta {
+  padding: 2px var(--espaco-3);
+  border: 2px solid var(--cor-tinta);
+  border-radius: 999px;
+  background: var(--cor-menta);
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.minijogo__titulo {
+  font-size: 1.7rem;
+}
+
+h3.minijogo__titulo {
+  font-size: 1.35rem;
+}
+
+.minijogo__regras {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--espaco-2);
+  width: 100%;
+  padding-top: var(--espaco-3);
+  border-top: 3px dashed rgb(43 45 66 / 0.25);
+}
+
+.minijogo__regras[hidden] {
+  display: none;
+}
+
+/* Vídeo de demonstração do minijogo */
+.demo {
+  width: 100%;
+  max-width: 340px;
+  margin: 0;
+}
+
+.demo[hidden] {
+  display: none;
+}
+
+.demo__video {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: contain;
+  background: var(--cor-azul-claro);
+  border: var(--borda);
+  border-radius: var(--raio-pequeno);
+  box-shadow: var(--sombra);
+}
+
+.demo__legenda {
+  margin-top: var(--espaco-2);
+  font-size: 0.8rem;
+  font-weight: 600;
+  opacity: 0.7;
+}
+
+/* Cartão explicando a peça implantada */
+.aula {
+  display: flex;
+  gap: var(--espaco-3);
+  align-items: flex-start;
+  width: 100%;
+  padding: var(--espaco-3);
+  background: var(--cor-azul-claro);
+  border: var(--borda);
+  border-radius: var(--raio-pequeno);
+  box-shadow: var(--sombra);
+  text-align: left;
+}
+
+.aula__icone {
+  flex: 0 0 76px;
+  height: 76px;
+  display: grid;
+  place-items: center;
+  background: var(--cor-papel);
+  border: var(--borda);
+  border-radius: 50%;
+  animation: encaixar-selo 500ms ease-out;
+}
+
+.aula__icone .icone {
+  width: 54px;
+  height: 54px;
+}
+
+.aula__conteudo {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espaco-1);
+}
+
+.aula__etiqueta {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  opacity: 0.7;
+}
+
+.aula__titulo {
+  font-size: 1.5rem;
+  line-height: 1.1;
+}
+
+.aula__texto {
+  line-height: 1.45;
+}
+
+.aula__analogia {
+  padding: var(--espaco-2) var(--espaco-3);
+  background: var(--cor-amarelo);
+  border: 2px solid var(--cor-tinta);
+  border-radius: var(--raio-pequeno);
+  font-size: 0.92rem;
+  line-height: 1.4;
+}
+
+.aula__analogia::before {
+  content: '💡 No Bit: ';
+  font-weight: 700;
+}
+
+.minijogo__texto {
+  max-width: 40ch;
+  line-height: 1.5;
+}
+
+.minijogo__aviso {
+  font-size: 0.85rem;
+  opacity: 0.7;
+}
+
+.minijogo__premios {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--espaco-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.premio {
+  padding: var(--espaco-1) var(--espaco-3);
+  border: 2px solid var(--cor-tinta);
+  border-radius: 999px;
+  font-weight: 600;
+  box-shadow: 2px 2px 0 var(--cor-tinta);
+}
+
+.premio--bonus {
+  background: var(--cor-verde);
+}
+
+.premio--penalidade {
+  background: var(--cor-vermelho);
+  color: var(--cor-papel);
+}
+
+.minijogo__canvas {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: var(--borda);
+  border-radius: var(--raio-pequeno);
+  box-shadow: var(--sombra);
+  touch-action: none;
+  outline: none;
+}
+
+/* Direcional na tela: só aparece em telas de toque */
+.minijogo__controles {
+  display: none;
+}
+
+.minijogo__controles[data-sempre]:not(:empty) {
+  display: flex;
+  justify-content: center;
+}
+
+@media (pointer: coarse) {
+  .minijogo__controles[data-layout='linha']:not(:empty) {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .minijogo__controles:not(:empty):not([data-sempre]):not([data-layout]) {
+    display: grid;
+    grid-template-areas:
+      '. n .'
+      'o s l';
+    gap: var(--espaco-2);
+  }
+}
+
+.direcional {
+  width: 64px;
+  height: 52px;
+  border: var(--borda);
+  border-radius: var(--raio-pequeno);
+  background: var(--cor-azul);
+  font-weight: 700;
+  box-shadow: var(--sombra);
+  touch-action: none;
+  user-select: none;
+}
+
+.direcional:active {
+  transform: translate(3px, 3px);
+  box-shadow: 1px 1px 0 var(--cor-tinta);
+}
+
+.direcional--n { grid-area: n; }
+.direcional--s { grid-area: s; }
+.direcional--l { grid-area: l; }
+.direcional--o { grid-area: o; }
+
+.minijogo__selo {
+  display: grid;
+  place-items: center;
+  width: 6rem;
+  height: 6rem;
+  border: var(--borda);
+  border-radius: 50%;
+  font-size: 1.8rem;
+  font-weight: 700;
+  box-shadow: var(--sombra);
+  animation: encaixar-selo 500ms ease-out;
+}
+
+.minijogo[data-resultado='vitoria'] .minijogo__selo {
+  background: var(--cor-verde);
+}
+
+.minijogo[data-resultado='derrota'] .minijogo__selo {
+  background: var(--cor-vermelho);
+  color: var(--cor-papel);
+}
+
+/* ---------- Rodapé ---------- */
+.rodape {
+  padding: var(--espaco-3);
+  font-size: 0.85rem;
+  text-align: center;
+  opacity: 0.7;
+}
+
+/* ---------- Animações ---------- */
+@keyframes batimento {
+  to { transform: translateX(-200px); }
+}
+
+@keyframes alarme {
+  50% { box-shadow: 0 0 0 6px rgb(239 71 111 / 0.45), var(--sombra); }
+}
+
+@keyframes pulsar {
+  50% { transform: scale(1.08); }
+}
+
+@keyframes chamar {
+  50% { background: var(--cor-amarelo); }
+}
+
+@keyframes encaixar {
+  0% { transform: translate(-50%, -50%) scale(0.6); }
+  70% { transform: translate(-50%, -50%) scale(1.15); }
+  100% { transform: translate(-50%, -50%) scale(1); }
+}
+
+@keyframes aparecer {
+  0% { transform: scale(0.85); opacity: 0; }
+  70% { transform: scale(1.03); opacity: 1; }
+  100% { transform: scale(1); }
+}
+
+@keyframes tremer-leve {
+  25% { transform: translateX(-4px); }
+  75% { transform: translateX(4px); }
+}
+
+@keyframes tremer {
+  0%, 100% { transform: translate(-50%, -50%); }
+  25% { transform: translate(-62%, -50%) rotate(-6deg); }
+  75% { transform: translate(-38%, -50%) rotate(6deg); }
+}
+
+@keyframes pane {
+  0% { transform: translate(-3px, 1px) rotate(-1deg); filter: none; }
+  50% { transform: translate(3px, -1px) rotate(1deg); filter: hue-rotate(160deg) saturate(1.6); }
+  100% { transform: translate(-3px, 1px) rotate(-1deg); filter: none; }
+}
+
+@keyframes girar {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes encaixar-selo {
+  0% { transform: scale(0.4) rotate(-20deg); }
+  70% { transform: scale(1.15) rotate(6deg); }
+  100% { transform: scale(1) rotate(0); }
+}
+
+@keyframes subir {
+  0% { opacity: 0; transform: translate(-50%, -50%) scale(0.7); }
+  20% { opacity: 1; transform: translate(-50%, -90%) scale(1.1); }
+  100% { opacity: 0; transform: translate(-50%, -190%) scale(1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 1ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 1ms !important;
+  }
+}
+
+/* ---------- Responsivo ---------- */
+@media (max-width: 520px) {
+  .aula {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .aula__icone {
+    flex-basis: auto;
+    width: 76px;
+  }
+}
+
+@media (max-width: 760px) {
+  .sala-cirurgica {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--espaco-3);
+    padding: var(--espaco-3) var(--espaco-3) 0;
+  }
+
+  .cabecalho {
+    padding: var(--espaco-3);
+  }
+
+  .cabecalho__cruz {
+    width: 2.4rem;
+    height: 2.4rem;
+    font-size: 1.8rem;
+  }
+
+  .painel {
+    display: grid;
+    grid-template-columns: 1fr auto auto;
+    width: 100%;
+    gap: var(--espaco-2);
+  }
+
+  .painel__item {
+    min-width: 0;
+    padding: var(--espaco-1) var(--espaco-2);
+  }
+
+  .painel__rotulo {
+    font-size: 0.65rem;
+  }
+
+  .painel__valor {
+    font-size: 1.2rem;
+  }
+
+  .botao--secundario {
+    padding: var(--espaco-2) var(--espaco-3);
+  }
+
+  .paciente {
+    max-width: 290px;
+  }
+
+  /* Bandeja fixa no rodapé, rolando na horizontal,
+     para o paciente e os órgãos ficarem visíveis juntos */
+  .bandeja {
+    position: sticky;
+    bottom: 0;
+    z-index: 5;
+    margin: 0 calc(var(--espaco-3) * -1);
+    padding: var(--espaco-2) var(--espaco-3) var(--espaco-3);
+    border-width: 3px 0 0;
+    border-radius: var(--raio) var(--raio) 0 0;
+    box-shadow: 0 -4px 0 rgb(43 45 66 / 0.15);
+  }
+
+  .bandeja__titulo {
+    font-size: 1rem;
+  }
+
+  .bandeja__dica {
+    display: none;
+  }
+
+  .prontuario {
+    min-height: 0;
+    margin: var(--espaco-2) 0;
+    padding: var(--espaco-1) var(--espaco-2) var(--espaco-2);
+    font-size: 0.82rem;
+    box-shadow: none;
+  }
+
+  .prontuario__etiqueta {
+    display: none;
+  }
+
+  .prontuario__pista {
+    font-size: 0.8rem;
+  }
+
+  .prontuario__peca .icone {
+    flex-basis: 28px;
+    width: 28px;
+    height: 28px;
+  }
+
+  .paciente__etiqueta {
+    max-width: 170px;
+    font-size: 0.75rem;
+  }
+
+  .bandeja__lista {
+    display: flex;
+    gap: var(--espaco-2);
+    margin-top: var(--espaco-2);
+    padding: 0 0 var(--espaco-2);
+    overflow-x: auto;
+    scroll-snap-type: x proximity;
+  }
+
+  .bandeja__lista li {
+    flex: 0 0 92px;
+    scroll-snap-align: start;
+  }
+
+  .carta {
+    padding: var(--espaco-2) var(--espaco-1);
+    font-size: 0.85rem;
+    /* rolar para os lados continua funcionando; arrastar para cima move o órgão */
+    touch-action: pan-x;
+  }
+
+  .carta .icone {
+    width: 40px;
+    height: 40px;
+  }
+
+  .rodape {
+    display: none;
+  }
+}
